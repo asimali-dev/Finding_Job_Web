@@ -6,6 +6,7 @@ const job = require("./model/job");
 const company = require("./model/company");
 const application = require("./model/application");
 const cookieparser = require("cookie-parser");
+
 require("dotenv").config();
 app.use(cookieparser())
 
@@ -19,7 +20,13 @@ app.get("/home", (req, res)=>{
 })
 //routes
 const userRoutes = require("./routes/user_rout")
-app.use('/api', userRoutes)
+const companyRoutes = require("./routes/company_rout");
+const jobRoutes = require("./routes/job_rout");
+const ApplicantsRout = require("./routes/applicants_rout");
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/company', companyRoutes);
+app.use('/api/v1/job', jobRoutes);
+app.use('/api/v1/applicants', ApplicantsRout);
 
 connectdb();
 

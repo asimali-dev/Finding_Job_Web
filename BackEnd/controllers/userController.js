@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const register = async (req, res) => {
     try {
+          console.log(req.body);
+    console.log(req.file);
         let { fullname, email, password, role, phonenumber } = req.body;
         if (!fullname || !email || !password || !role || !phonenumber) {
             return res.status(400).json(
@@ -22,17 +24,39 @@ const register = async (req, res) => {
         }
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
-        await user_model.create({
+        let newUser = await user_model.create({
             fullname,
             email,
             password: hash,
             phonenumber,
             role
         });
-        return res.status(200).json({
-            message: "User registered successfully",
-            success: true
-        });
+        newUser = {
+            _id: newUser.id,
+            fullname: newUser.fullname,
+            email: newUser.email,
+            phonenumber: newUser.phonenumber,
+            role: newUser.role,
+            profile: newUser.profile
+        };
+
+        // JWT generate
+        const token = jwt.sign({ userid: newUser._id },
+            process.env.SECRET_KEY,
+            { expiresIn: "1d" }
+        );
+        return res
+            .status(201)
+            .cookie("token", token, {
+                maxAge: 1 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                sameSite: "strict"
+            })
+            .json({
+                message: "User registered successfully",
+                success: true,
+                user: newUser
+            });
     } catch (error) {
         console.log(error)
     }
@@ -105,30 +129,41 @@ const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phonenumber, bio, skills } = req.body;
         const file = req.file
-        if (!fullname || !email || !skills || !phonenumber || !bio) {
-            return res.status(400).json(
-                {
-                    message: "something is missing",
-                    success: false
-                }
-
-            )
-        };
-        const skillsArray = skills.split(",");
-        const userid = req.id; // middleware authentication
-        let user = await user_model.findById(userid);
-        if (!user) {
-            return res.status(400).json({
-                message: "user not found",
-                success: false
-            })
+        let splitArray;
+        if (skills) {
+            splitArray = skills.split(",");
         }
-        user.fullname = fullname,
-            user.email = email,
-            user.phonenumber = phonenumber,
-            user.profile.bio = bio,
-            user.profile.skills = skillsArray
+        const userid = req.id; // middleware authentication
+        const updateData = {};
 
+        if (fullname) {
+            updateData.fullname = fullname;
+        }
+
+        if (email) {
+            updateData.email = email;
+        }
+
+        if (phonenumber) {
+            updateData.phonenumber = phonenumber;
+        }
+
+        if (bio) {
+            updateData["profile.bio"] = bio;
+        }
+
+        if (skills) {
+            updateData["profile.skills"] = skills.split(",");
+        }
+
+
+        const user = await user_model.findByIdAndUpdate(
+            userid,
+            updateData,
+            {
+                new: true
+            }
+        );
         await user.save();
         user = {
             _id: user.id,
