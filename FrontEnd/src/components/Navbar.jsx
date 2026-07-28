@@ -1,6 +1,10 @@
 import React from 'react'
 import logo from "../assets/Gemini_Generated_Image_3lnljw3lnljw3lnl.png";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { logoutUser } from '@/redux/authSlice';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import {
     Avatar,
@@ -13,11 +17,35 @@ import {
     PopoverTrigger,
     PopoverContent,
 } from "@/components/ui/popover";
+import axios from 'axios';
 
 function Navbar() {
-    const user = false;
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const logoutHandler = async () => {
+        try {
+            const res = await axios.post(
+                "http://localhost:3000/api/v1/user/logout",
+                {},
+                {
+                    withCredentials: true,
+                }
+            );
+
+            if (res.data.success) {
+                dispatch(logoutUser());
+                toast.success(res.data.message);
+                navigate("/");
+            }
+
+        } catch (error) {
+            toast.error(error.response?.data?.message);
+        }
+    }
+    const { user } = useSelector((store) => store.auth);
     return (
-        <nav className='w-full h-18 bg-white px-10 py-2 flex justify-between items-center fixed top-0 left-0'>
+        <nav className='w-full h-18 bg-white px-10 py-2 flex justify-between items-center fixed top-0 left-0 z-50'>
             <div className='w-[15%] h-full'>
                 <img className='object-cover w-full h-full ' src={logo} alt="" />
             </div>
@@ -27,18 +55,28 @@ function Navbar() {
             >
                 <div className="w-[85%] h-full">
                     <ul className="flex justify-between text-lg h-full items-center">
-                        <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
-                            Home
-                        </li>
-                        <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
-                            Jobs
-                        </li>
-                        <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
-                            Browse
-                        </li>
-                        <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
-                            About Us
-                        </li>
+                        <Link to={"/"}>
+                            <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
+                                Home
+                            </li></Link>
+                        <Link to={"/jobs"}>
+                            <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
+                                Jobs
+                            </li>
+
+                        </Link>
+                        <Link to={"/companies"}>
+                            <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
+                                Companies
+                            </li>
+
+                        </Link>
+                         <Link to={"/about"}>
+                            <li className="cursor-pointer hover:text-blue-600 transition-all duration-200">
+                                About Us
+                            </li>
+
+                        </Link>
                     </ul>
                 </div>
 
@@ -88,7 +126,7 @@ function Navbar() {
                                         View Profile
                                     </button>
 
-                                    <button className="w-full rounded-md border border-gray-300 py-2 hover:bg-gray-100 transition-all duration-300">
+                                    <button onClick={logoutHandler} className="w-full rounded-md border border-gray-300 py-2 hover:bg-gray-100 transition-all duration-300">
                                         Logout
                                     </button>
                                 </div>

@@ -5,7 +5,10 @@ import {
   Building2,
   Users,
   Award,
+  Search
 } from "lucide-react";
+import CategoryCarousel from "./CategoryCarousel";
+import LatestJobs from "./LatestJobs";
 
 function Home() {
   return (
@@ -25,8 +28,7 @@ function Home() {
 
         <h1
           data-aos="fade-up"
-          className="text-7xl font-bold leading-tight mt-8 text-[#0F172A]"
-        >
+          className="text-7xl font-bold leading-tight mt-8 text-[#0F172A]">
           Find Your <span className="text-blue-600">Next</span> <br />
           Opportunity
         </h1>
@@ -49,11 +51,8 @@ function Home() {
         </div>
       </div>
 
-      {/* Stats Section */}
-
       <div className="w-[90%] mx-auto mt-20 bg-white rounded-2xl shadow-xl px-8 py-6 flex justify-between items-center">
 
-        {/* Card 1 */}
 
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center">
@@ -68,8 +67,6 @@ function Home() {
 
         <div className="h-14 border-r border-gray-300"></div>
 
-        {/* Card 2 */}
-
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
             <Building2 className="text-green-600 w-8 h-8" />
@@ -83,7 +80,6 @@ function Home() {
 
         <div className="h-14 border-r border-gray-300"></div>
 
-        {/* Card 3 */}
 
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center">
@@ -98,7 +94,6 @@ function Home() {
 
         <div className="h-14 border-r border-gray-300"></div>
 
-        {/* Card 4 */}
 
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center">
@@ -113,6 +108,23 @@ function Home() {
 
       </div>
     </div>
+    <div className="w-full h-auto flex flex-col justify-center items-center my-12 text-center">
+      <div data-aos='zoom-in'>
+        <h1 className="text-4xl font-bold"><span className="m-auto">Search, Apply</span> & <br />Get Your <span className="text-[#1447E6]">Dream Job</span></h1>
+        <p className="mt-3.5 text-[18px] font-medium text-gray-500" >Discover the right job, apply with confidence, and take the next step in your professional journey.</p>
+      </div>
+      <div className="w-[50%] mt-6 flex items-center justify-center">
+        <input type="text" placeholder="Find Your Job" className="w-[70%] outline-none py-2.5 px-2 border-gray-500 border-2 rounded-l-full shadow-lg"/>
+        <button className="bg-[#1447E6] py-3 px-3 text-white rounded-r-full cursor-pointer hover:bg-blue-800">
+          <Search/>
+        </button>
+
+      </div>
+    </div>
+
+    <CategoryCarousel/>
+
+    <LatestJobs/>
     </>
   );
 }

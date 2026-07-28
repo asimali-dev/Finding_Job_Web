@@ -1,13 +1,21 @@
-import React from "react";
+
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/authSlice"
 
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [input, setInput] = useState({
     email: "",
     password: "",
+    role: "",
   });
   const changeEventHandler = (e) => {
     setInput({
@@ -15,6 +23,34 @@ function Login() {
       [e.target.name]: e.target.value,
     });
   };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    console.log(input)
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/v1/user/login",
+        input,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+
+      )
+      console.log(res.data);
+      if (res.data.success) {
+        dispatch(setUser(res.data.user));
+        toast.success(res.data.message);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response?.data?.message);
+      console.log(error.response);
+      console.log(error.response?.data);
+    }
+  }
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100">
       <div className="w-[430px] bg-white rounded-2xl shadow-lg p-8">
@@ -26,7 +62,7 @@ function Login() {
           Login to continue to NexHire.
         </p>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={submitHandler}>
 
           <div>
             <Label>Email</Label>
@@ -34,6 +70,9 @@ function Login() {
               type="email"
               placeholder="Enter your email"
               className="mt-2"
+              value={input.email}
+              onChange={changeEventHandler}
+              name="email"
             />
           </div>
 
@@ -43,13 +82,38 @@ function Login() {
               type="password"
               placeholder="Enter your password"
               className="mt-2"
-              name="email"
-              value={input.email}
+              name="password"
+              value={input.password}
               onChange={changeEventHandler}
             />
           </div>
+          <div>
+            <Label className="mb-2 block">Login As</Label>
 
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer">
+            <div className="flex gap-6">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="role"
+                  value="student"
+                  onChange={changeEventHandler}
+                />
+                Student
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="role"
+                  value="recruiter"
+                  onChange={changeEventHandler}
+                />
+                Recruiter
+              </label>
+            </div>
+          </div>
+
+          <Button className="w-full bg-blue-600 hover:bg-blue-700 cursor-pointer" type="submit">
             Login
           </Button>
 
@@ -58,9 +122,6 @@ function Login() {
             <Link
               to="/signup"
               className="text-blue-600 font-medium hover:underline"
-              name="password"
-              value={input.password}
-              onChange={changeEventHandler}
             >
               Sign Up
             </Link>

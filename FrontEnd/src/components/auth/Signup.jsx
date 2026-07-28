@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "sonner";
+import { setUser } from "../../redux/authSlice"
+import { useDispatch } from "react-redux";
 
 function Signup() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [input, setinput] = useState({
     fullname: "",
     email: "",
@@ -28,29 +34,37 @@ function Signup() {
   };
   const submitHandler = async (e) => {
     e.preventDefault();
-    // console.log(input)
-    // const formdata = new FormData();
-    // formdata.append("fullname", input.fullname);
-    // formdata.append("email", input.email);
-    // formdata.append("phonenumber", input.phonenumber);
-    // formdata.append("password", input.password);
-    // formdata.append("role", input.role);
-    // formdata.append("file", input.file);
+    console.log(input)
+    const formdata = new FormData();
+    formdata.append("fullname", input.fullname);
+    formdata.append("email", input.email);
+    formdata.append("phonenumber", input.phonenumber);
+    formdata.append("password", input.password);
+    formdata.append("role", input.role);
+    formdata.append("file", input.file);
 
 
     try {
       const res = await axios.post("http://localhost:3000/api/v1/user/register",
-        input,
+        formdata,
         {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          withCredentials: true,
         }
 
       )
       console.log(res.data);
+      if (res.data.success) {
+        navigate("/")
+        dispatch(setUser(res.data.user));
+        toast.success(res.data.message)
+      }
     } catch (error) {
       console.log(error)
+      toast.error(error.response?.data?.message || "Something is missing")
+      //  console.log(error.response?.data);
     }
   }
 
