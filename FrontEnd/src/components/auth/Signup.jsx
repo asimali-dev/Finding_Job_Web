@@ -17,6 +17,8 @@ function Signup() {
     email: "",
     phonenumber: "",
     password: "",
+    city: "",
+    country: "",
     role: "",
     file: ""
   });
@@ -40,6 +42,8 @@ function Signup() {
     formdata.append("email", input.email);
     formdata.append("phonenumber", input.phonenumber);
     formdata.append("password", input.password);
+    formdata.append("city", input.city);
+    formdata.append("country", input.country);
     formdata.append("role", input.role);
     formdata.append("file", input.file);
 
@@ -57,10 +61,16 @@ function Signup() {
       )
       console.log(res.data);
       if (res.data.success) {
-        navigate("/")
         dispatch(setUser(res.data.user));
-        toast.success(res.data.message)
+        toast.success(res.data.message);
+        if (res.data.user.role === "student") {
+          navigate("/")
+        }
+        else if (res.data.user.role === "recruiter") {
+          navigate("/admin/dashboard")
+        }
       }
+
     } catch (error) {
       console.log(error)
       toast.error(error.response?.data?.message || "Something is missing")
@@ -125,6 +135,28 @@ function Signup() {
               className="mt-2"
               name="password"
               value={input.password}
+              onChange={changeEventHandler}
+            />
+          </div>
+          <div>
+            <Label>City</Label>
+            <Input
+              type="text"
+              placeholder="Enter your city"
+              className="mt-2"
+              name="city"
+              value={input.city}
+              onChange={changeEventHandler}
+            />
+          </div>
+          <div>
+            <Label>Country</Label>
+            <Input
+              type="text"
+              placeholder="Enter your country"
+              className="mt-2"
+              name="country"
+              value={input.country}
               onChange={changeEventHandler}
             />
           </div>

@@ -20,7 +20,7 @@ function Login() {
   const changeEventHandler = (e) => {
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [e.target.name] : e.target.value,
     });
   };
   const submitHandler = async (e) => {
@@ -42,7 +42,12 @@ function Login() {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
         toast.success(res.data.message);
-        navigate("/");
+        if(res.data.user.role === "student"){
+          navigate("/")
+        }
+        else if (res.data.user.role === "recruiter" ){
+          navigate("/admin/dashboard")
+        }
       }
     } catch (error) {
       console.log(error)

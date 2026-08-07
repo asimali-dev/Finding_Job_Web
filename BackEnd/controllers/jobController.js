@@ -13,6 +13,7 @@ const create_job = async (req, res) => {
             company
         } = req.body;
         const userid = req.id;
+         console.log(req.body);
 
         if (!title || !description || !requirements || !salary || !location || !jobtype || !position || !company) {
             return res.status(400).json({
@@ -23,7 +24,7 @@ const create_job = async (req, res) => {
         };
         const splitRequirement = requirements.split(",").map(item => item.trim());
         const job = await job_model.create({
-            title, description, jobtype, position, company, salary, requirements: splitRequirement, created_by: userid
+            title, description, jobtype, position, company, location, salary, requirements: splitRequirement, created_by: userid
         });
         return res.status(201).json({
             message: "job created",
@@ -59,7 +60,15 @@ const getAllJobs = async (req, res) => {
 const getjob_ById = async (req, res) => {
     try {
         const jobid = req.params.id;
-        const job = await job_model.findById(jobid).populate("company");
+        const job = await job_model.findById(jobid)
+            .populate("company")
+            .populate({
+                path: "applications",
+                populate: {
+                    path: "applicant",
+                    model: "user"
+                }
+            });
         if (!job) {
             return res.status(404).json({
                 message: "Job not found",
@@ -111,24 +120,23 @@ const update_job = async (req, res) => {
             position,
             company
         } = req.body;
-        let splitRequirement = requirements.split(",").map(item => item.trim());
-
-        if(title){update.title = title};
-        if(description){update.description = description};
+       
+        if (title) { update.title = title };
+        if (description) { update.description = description };
         if (requirements) {
-           update.requirements = requirements
-           .split(",")
-           .map(item => item.trim());
+            update.requirements = requirements
+                .split(",")
+                .map(item => item.trim());
         }
-        if(salary){update.salary = salary};
-        if(jobtype){update.jobtype = jobtype};
-        if(position){update.position = position};
-        if(company){update.company = company};
-        if(location){
-           update.location = location;
+        if (salary) { update.salary = salary };
+        if (jobtype) { update.jobtype = jobtype };
+        if (position) { update.position = position };
+        if (company) { update.company = company };
+        if (location) {
+            update.location = location;
         }
-        const job = await job_model.findByIdAndUpdate(id, update, {new: true});
-        if(!job){
+        const job = await job_model.findByIdAndUpdate(id, update, { new: true });
+        if (!job) {
             return res.status(404).json({
                 message: "Job not found",
                 success: false,
@@ -136,15 +144,15 @@ const update_job = async (req, res) => {
 
         }
         return res.status(200).json({
-          success: true,
-          message: "Job updated successfully",
-          job
+            success: true,
+            message: "Job updated successfully",
+            job
         });
 
-        
+
     } catch (error) {
         console.log(error)
     }
 
 };
-module.exports = { create_job, admin_job, getjob_ById, update_job, getAllJobs};
+module.exports = { create_job, admin_job, getjob_ById, update_job, getAllJobs };

@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useDispatch } from "react-redux";
+import { setLocationFilter, setRoleFilter, setSalaryFilter } from "@/redux/JobSlice";
 function FilterSidebar() {
+  const dispatch = useDispatch();
 
   const filterData = [
     {
@@ -18,7 +20,7 @@ function FilterSidebar() {
       array: [
         "frontend developer",
         "backend developer",
-        "fullstack developer",
+        "MERN Stack developer",
         "ai developer",
         "software developer",
       ],
@@ -66,6 +68,17 @@ function FilterSidebar() {
                       name={filter.filterType}
                       value={item}
                       className="w-4 h-4 cursor-pointer accent-blue-600"
+                      onChange={()=>{
+                        if(filter.filterType === "location"){
+                          dispatch(setLocationFilter(item))
+                        }
+                        if(filter.filterType === "role job"){
+                          dispatch(setRoleFilter(item))
+                        }
+                        if(filter.filterType === "salary"){
+                          dispatch(setSalaryFilter(item))
+                        }
+                      }}
                     />
 
                     <label className="text-gray-600 capitalize cursor-pointer hover:text-blue-600 transition">

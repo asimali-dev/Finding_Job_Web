@@ -1,12 +1,14 @@
 const user_model = require('../model/user');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const getdatauri = require('../utils/datauri');
+const cloudinary = require("../utils/cloudinary");
 const register = async (req, res) => {
     try {
-          console.log(req.body);
-    console.log(req.file);
-        let { fullname, email, password, role, phonenumber } = req.body;
-        if (!fullname || !email || !password || !role || !phonenumber) {
+        console.log(req.body);
+        console.log(req.file);
+        let { fullname, email, password, role, phonenumber, city, country } = req.body;
+        if (!fullname || !email || !password || !role || !phonenumber || !city || !country) {
             return res.status(400).json(
                 {
                     message: "something is missing",
@@ -29,7 +31,9 @@ const register = async (req, res) => {
             email,
             password: hash,
             phonenumber,
-            role
+            role,
+            city,
+            country
         });
         newUser = {
             _id: newUser.id,
@@ -37,7 +41,9 @@ const register = async (req, res) => {
             email: newUser.email,
             phonenumber: newUser.phonenumber,
             role: newUser.role,
-            profile: newUser.profile
+            profile: newUser.profile,
+            city: newUser.city,
+            country: newUser.country,
         };
 
         // JWT generate
@@ -127,60 +133,94 @@ const logout = (req, res) => {
 }
 const updateProfile = async (req, res) => {
     try {
+
         const { fullname, email, phonenumber, bio, skills } = req.body;
-        const file = req.file
-        let splitArray;
-        if (skills) {
-            splitArray = skills.split(",");
-        }
-        const userid = req.id; // middleware authentication
+        console.log("===== UPDATE PROFILE =====");
+console.log("BODY:", req.body);
+console.log("FILES:", req.files);
+    
+        const profilephoto = req.files?.profilephoto?.[0];
+        const resume = req.files?.resume?.[0];
+
+        const userid = req.id;
         const updateData = {};
 
-        if (fullname) {
-            updateData.fullname = fullname;
+        // Basic fields
+        if (fullname) updateData.fullname = fullname;
+        if (email) updateData.email = email;
+        if (phonenumber) updateData.phonenumber = phonenumber;
+        if (bio) updateData["profile.bio"] = bio;
+        if (skills) updateData["profile.skills"] = skills.split(",");
+
+        // Profile Photo Upload
+        if (profilephoto) {
+            const profilePhotoUri = getdatauri(profilephoto);
+
+            const profileResponse = await cloudinary.uploader.upload(
+                profilePhotoUri.content
+            );
+
+            updateData["profile.profilephoto"] = profileResponse.secure_url;
         }
 
-        if (email) {
-            updateData.email = email;
-        }
+        // Resume Upload
+        if (resume) {
+            const resumeUri = getdatauri(resume);
 
-        if (phonenumber) {
-            updateData.phonenumber = phonenumber;
-        }
+            const resumeResponse = await cloudinary.uploader.upload(
+                resumeUri.content,
+                {
+                    resource_type: "raw",
+                }
+            );
 
-        if (bio) {
-            updateData["profile.bio"] = bio;
+            updateData["profile.resume"] = resumeResponse.secure_url;
+            updateData["profile.resumeOrignalName"] = resume.originalname;
         }
-
-        if (skills) {
-            updateData["profile.skills"] = skills.split(",");
-        }
-
 
         const user = await user_model.findByIdAndUpdate(
             userid,
             updateData,
             {
-                new: true
+                returnDocument: "after",
             }
         );
-        await user.save();
-        user = {
-            _id: user.id,
-            fullname: user.fullname,
-            email: user.email,
-            phonenumber: user.phonenumber,
-            role: user.role,
-            profile: user.profile
+
+        return res.status(200).json({
+            message: "Profile updated successfully",
+            success: true,
+            user,
+        });
+    } catch (error) {
+       console.log(error);
+
+    return res.status(500).json({
+        success: false,
+        message: error.message,
+    });
+    }
+};
+const getProfile = async (req, res) => {
+    try {
+        const userid = req.id
+        const user = await user_model.findById(userid);
+        if (!user) {
+            return res.status(404).json({
+                message: "user not find",
+                success: false
+            })
         }
         return res.status(200).json({
-            message: "profile updated successfully",
+            message: "user found",
             success: true,
             user
         })
+
+
     } catch (error) {
         console.log(error)
     }
+
 }
 
-module.exports = { register, login, logout, updateProfile }
+module.exports = { register, login, logout, updateProfile, getProfile }

@@ -149,7 +149,7 @@ function About() {
             </p>
           </div>
 
-          <div className="mt-12 rounded-3xl overflow-hidden shadow-2xl border border-gray-200">
+          <div className="mt-12 rounded-3xl overflow-hidden shadow-2xl border border-gray-200 hidden md:block">
             <video
               autoPlay
               loop
@@ -167,7 +167,7 @@ function About() {
       <section className="bg-slate-100 py-20">
         <div className="max-w-7xl mx-auto px-6">
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
 
             <div>
               <h2 className="text-5xl font-bold text-blue-600">5000+</h2>

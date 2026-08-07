@@ -1,63 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Building2, MapPin, Globe } from "lucide-react";
+import axios from "axios";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function Companies() {
-  const companies = [
-    {
-      id: 1,
-      name: "Google",
-      location: "Lahore",
-      website: "www.google.com",
-      jobs: 24,
-      description:
-        "Join one of the world's leading technology companies and build products used by millions.",
-    },
-    {
-      id: 2,
-      name: "Microsoft",
-      location: "Islamabad",
-      website: "www.microsoft.com",
-      jobs: 18,
-      description:
-        "Create innovative software solutions and grow your career with Microsoft.",
-    },
-    {
-      id: 3,
-      name: "Arbisoft",
-      location: "Lahore",
-      website: "www.arbisoft.com",
-      jobs: 15,
-      description:
-        "Work on modern web applications with talented software engineers.",
-    },
-    {
-      id: 4,
-      name: "Systems Limited",
-      location: "Karachi",
-      website: "www.systemsltd.com",
-      jobs: 12,
-      description:
-        "Pakistan's leading IT company with exciting career opportunities.",
-    },
-    {
-      id: 5,
-      name: "Devsinc",
-      location: "Lahore",
-      website: "www.devsinc.com",
-      jobs: 10,
-      description:
-        "Build scalable applications and collaborate with global clients.",
-    },
-    {
-      id: 6,
-      name: "10Pearls",
-      location: "Islamabad",
-      website: "www.10pearls.com",
-      jobs: 20,
-      description:
-        "Deliver world-class digital products using modern technologies.",
-    },
-  ];
+  const [company , setcompany] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const fetchCompanies = async ()=>{
+      try {
+        const res = await axios.get('http://localhost:3000/api/v1/company/all',
+        {},
+        {
+          withCredentials: true,
+        }
+        )
+        if(res.data.success){
+          toast.success(res.data.message)
+          setcompany(res.data.companies)
+
+          console.log(res.data)
+        }
+      } catch (error) {
+        toast.error(error.response?.data?.message);
+      }
+    }
+    fetchCompanies();
+  },[])
+  
 
   return (
     <section className="bg-slate-100 min-h-screen py-16 mt-18">
@@ -76,21 +48,21 @@ function Companies() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
 
-          {companies.map((company) => (
+          {company.map((company) => (
             <div
               key={company.id}
               className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200"
             >
 
-              <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center">
-                <Building2 className="text-blue-600" size={30} />
+              <div className="w-20 h-20 flex items-center justify-center">
+                <img className="w-full h-full object-center object-contain" src={company.logo} alt={company.name} />
               </div>
 
-              <h2 className="text-2xl font-bold mt-5">
+              <h2 className="text-2xl font-bold mt-5 truncate">
                 {company.name}
               </h2>
 
-              <p className="text-gray-500 mt-3 leading-6">
+              <p className="text-gray-500 mt-3 leading-6 line-clamp-2">
                 {company.description}
               </p>
 
@@ -108,9 +80,9 @@ function Companies() {
 
               </div>
               <div className="flex justify-between items-center mt-8">
-                <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
-                  {company.jobs} Open Jobs
-                </span>
+                <button onClick={()=> navigate(`/company/description/${company._id}`)} className="bg-blue-100 text-blue-700 px-5 py-2 text-[17px] rounded-lg text-sm font-medium hover:bg-blue-700 hover:text-white transition-all">
+                  Detail
+                </button>
                 <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all">
                   View Jobs
                 </button>

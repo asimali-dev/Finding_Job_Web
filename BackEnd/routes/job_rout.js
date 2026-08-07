@@ -7,9 +7,9 @@ console.log("isAuthenticated:", isAuthenticated);
 console.log("create_job:", create_job);
 
 route.post("/create",isAuthenticated, create_job);
-route.get("/get/admin/:id",isAuthenticated, admin_job);
+route.get("/get/admin",isAuthenticated, admin_job);
 route.get("/get/:id",isAuthenticated, getjob_ById);
-route.put("/get/:id",isAuthenticated, update_job);
+route.put("/update/:id",isAuthenticated, update_job);
 route.get("/get", getAllJobs);
 
 
