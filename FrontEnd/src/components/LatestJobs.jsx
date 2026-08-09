@@ -87,11 +87,11 @@ function LatestJobs() {
 
                                     <div className="flex gap-3 mt-6">
 
-                                        <button onClick={() => navigate(`/jobs/description/${job._id}`)} className="flex-1 border border-gray-300 rounded-lg py-2 font-medium hover:bg-slate-100 transition cursor-pointer">
+                                        <button onClick={() => navigate(`/job/description/${job._id}`)} className="flex-1 border border-gray-300 rounded-lg py-2 font-medium hover:bg-slate-100 transition cursor-pointer">
                                             Details
                                         </button>
 
-                                        <button className="flex-1 bg-blue-600 text-white rounded-lg py-2 font-medium hover:bg-blue-700 transition cursor-pointer">
+                                        <button onClick={()=> navigate(`/job/description/${job._id}`)} className="flex-1 bg-blue-600 text-white rounded-lg py-2 font-medium hover:bg-blue-700 transition cursor-pointer">
                                             Apply
                                         </button>
 

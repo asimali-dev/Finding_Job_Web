@@ -237,7 +237,9 @@ function AdminJobDes() {
 
                 <div className="mt-6 sm:mt-8 flex justify-stretch sm:justify-end">
 
-                    <button
+                    <button onClick={()=>{
+                        navigate(`/admin/job/applicants/${singleJob?._id}`)
+                    }}
                         className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-3 rounded-xl transition cursor-pointer"
                     >
                         View Applicants

@@ -25,112 +25,129 @@ import {
 
 function MobileMenu({ user, logoutHandler }) {
     const [open, setOpen] = useState(false);
+    const [profileOpen, setProfileOpen] = useState(false);
     const navigate = useNavigate();
 
+    const handleNavigate = () => {
+        setTimeout(() => {
+            setOpen(false);
+        }, 300);
+    };
+
     return (
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
+
             <SheetTrigger asChild>
-                <button className="cursor-pointer">
+                <button
+                    className="p-2 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+                >
                     <Menu size={28} />
                 </button>
             </SheetTrigger>
 
             <SheetContent
                 side="left"
-                className="w-[300px] bg-white px-6"
+                className="w-[85%] max-w-[340px] bg-white px-5 sm:px-7"
             >
-                <SheetHeader>
-                    <SheetTitle className="text-2xl font-bold">
-                        NexHire
+
+                <SheetHeader className="border-b pb-5">
+                    <SheetTitle className="text-2xl font-bold text-black">
+                        Nex<span className="text-blue-600">Hire</span>
                     </SheetTitle>
                 </SheetHeader>
 
-                <div className="mt-10 flex flex-col gap-2">
+                <div className="mt-7 flex flex-col">
 
-                    {user?.role === "recruiter" ? (
-                        <>
-                            <Link
-                                to="/admin/dashboard"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                Dashboard
-                            </Link>
+                    <div
+                        data-aos="fade-right"
+                        data-aos-duration="500"
+                        className="flex flex-col gap-1"
+                    >
 
-                            <Link
-                                to="/admin/jobs"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                Jobs
-                            </Link>
+                        {user?.role === "recruiter" ? (
+                            <>
+                                <Link
+                                    to="/admin/dashboard"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    Dashboard
+                                </Link>
 
-                            <Link
-                                to="/admin/companies"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                Companies
-                            </Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link
-                                to="/"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                Home
-                            </Link>
+                                <Link
+                                    to="/admin/jobs"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    Jobs
+                                </Link>
 
-                            <Link
-                                to="/jobs"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                Jobs
-                            </Link>
+                                <Link
+                                    to="/admin/companies"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    Companies
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    Home
+                                </Link>
 
-                            <Link
-                                to="/companies"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                Companies
-                            </Link>
+                                <Link
+                                    to="/jobs"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    Jobs
+                                </Link>
 
-                            <Link
-                                to="/about"
-                                className="text-lg font-medium px-4 py-3 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition"
-                            >
-                                About Us
-                            </Link>
-                        </>
-                    )}
+                                <Link
+                                    to="/companies"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    Companies
+                                </Link>
 
-                    <div className="border-t my-5"></div>
+                                <Link
+                                    to="/about"
+                                    onClick={handleNavigate}
+                                    className="px-4 py-3.5 rounded-xl text-base sm:text-lg font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition"
+                                >
+                                    About Us
+                                </Link>
+                            </>
+                        )}
+
+                    </div>
+
+                    <div className="border-t border-gray-200 my-6"></div>
 
                     {!user ? (
-                        <div className="flex flex-col gap-3">
+                        <div
+                            data-aos="fade-up"
+                            data-aos-duration="600"
+                            className="flex flex-col gap-3"
+                        >
 
-                            <Link to="/login">
+                            <Link to="/login" onClick={handleNavigate}>
                                 <button
-                                    className="
-                                    w-full py-3 rounded-xl
-                                    bg-gray-100
-                                    font-semibold
-                                    hover:bg-gray-200
-                                    transition
-                                    "
+                                    className="w-full py-3.5 rounded-xl bg-gray-100 text-gray-800 font-semibold hover:bg-gray-200 transition cursor-pointer"
                                 >
                                     Login
                                 </button>
                             </Link>
 
-                            <Link to="/signup">
+                            <Link to="/signup" onClick={handleNavigate}>
                                 <button
-                                    className="
-                                    w-full py-3 rounded-xl
-                                    bg-blue-600
-                                    text-white
-                                    font-semibold
-                                    hover:bg-blue-700
-                                    transition
-                                    "
+                                    className="w-full py-3.5 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition cursor-pointer"
                                 >
                                     Signup
                                 </button>
@@ -139,97 +156,95 @@ function MobileMenu({ user, logoutHandler }) {
                         </div>
                     ) : (
                         <div
-                            className="
-                            flex items-center gap-4
-                            bg-gray-50
-                            p-4
-                            rounded-2xl
-                            "
+                            data-aos="fade-up"
+                            data-aos-duration="600"
+                            className="rounded-2xl bg-gradient-to-r from-blue-50 to-white border border-blue-100 p-4"
                         >
 
-                            <Popover
-                                open={open}
-                                onOpenChange={setOpen}
-                            >
-                                <PopoverTrigger asChild>
+                            <div className="flex items-center gap-3">
 
-                                    <Avatar className="h-14 w-14 cursor-pointer">
+                                <Popover
+                                    open={profileOpen}
+                                    onOpenChange={setProfileOpen}
+                                >
 
-                                        <AvatarImage
-                                            src={user?.profile?.profilephoto}
-                                        />
+                                    <PopoverTrigger asChild>
+                                        <button className="cursor-pointer">
+                                            <Avatar className="h-12 w-12 border-2 border-blue-100">
 
-                                        <AvatarFallback>
-                                            CN
-                                        </AvatarFallback>
+                                                <AvatarImage
+                                                    src={user?.profile?.profilephoto}
+                                                />
 
-                                    </Avatar>
+                                                <AvatarFallback>
+                                                    CN
+                                                </AvatarFallback>
 
-                                </PopoverTrigger>
+                                            </Avatar>
+                                        </button>
+                                    </PopoverTrigger>
 
-                                <PopoverContent className="w-64">
+                                    <PopoverContent className="w-64">
 
-                                    <div className="space-y-3">
+                                        <div className="space-y-3">
 
-                                        <h4 className="font-semibold">
-                                            {user?.fullname}
-                                        </h4>
+                                            <h4 className="font-semibold text-gray-800">
+                                                {user?.fullname}
+                                            </h4>
 
-                                        {user?.role === "student" && (
+                                            {user?.role === "student" && (
+                                                <button
+                                                    onClick={() => {
+                                                        setProfileOpen(false);
+                                                        setOpen(false);
+                                                        navigate("/profile");
+                                                    }}
+                                                    className="w-full py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer"
+                                                >
+                                                    View Profile
+                                                </button>
+                                            )}
+
                                             <button
                                                 onClick={() => {
+                                                    setProfileOpen(false);
                                                     setOpen(false);
-                                                    navigate("/profile");
+                                                    logoutHandler();
                                                 }}
-                                                className="
-                                                w-full
-                                                py-2
-                                                rounded-lg
-                                                bg-blue-600
-                                                text-white
-                                                "
+                                                className="w-full py-2.5 rounded-lg border border-gray-300 hover:bg-gray-100 transition cursor-pointer"
                                             >
-                                                View Profile
+                                                Logout
                                             </button>
-                                        )}
 
-                                        <button
-                                            onClick={logoutHandler}
-                                            className="
-                                            w-full
-                                            py-2
-                                            rounded-lg
-                                            border
-                                            hover:bg-gray-100
-                                            "
-                                        >
-                                            Logout
-                                        </button>
+                                        </div>
 
-                                    </div>
+                                    </PopoverContent>
 
-                                </PopoverContent>
-                            </Popover>
+                                </Popover>
 
-                            <div>
-                                <p className="font-semibold">
-                                    {user?.fullname}
-                                </p>
+                                <div className="min-w-0">
+                                    <p className="font-semibold text-gray-800 truncate">
+                                        {user?.fullname}
+                                    </p>
 
-                                <p className="text-sm text-gray-500">
-                                    {user?.role === "recruiter"
-                                        ? "Recruiter"
-                                        : "Student"}
-                                </p>
+                                    <p className="text-sm text-gray-500">
+                                        {user?.role === "recruiter"
+                                            ? "Recruiter"
+                                            : "Student"}
+                                    </p>
+                                </div>
+
                             </div>
 
                         </div>
                     )}
 
                 </div>
+
             </SheetContent>
+
         </Sheet>
     );
 }
 
-export default MobileMenu;
+export default MobileMenu

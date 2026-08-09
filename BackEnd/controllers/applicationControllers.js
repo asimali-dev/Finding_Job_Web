@@ -90,6 +90,9 @@ const getApplicants = async (req, res) => {
     try {
 
         const jobId = req.params.id;
+        console.log("GET APPLICANTS ROUTE HIT");
+        console.log("JOB ID:", req.params.id);
+
 
         const job = await job_model.findById(jobId).populate({
             path: "applications",

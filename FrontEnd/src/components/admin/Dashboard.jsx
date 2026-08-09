@@ -170,7 +170,6 @@ function Dashboard() {
                     </Link>
                 </div>
 
-                {/* Recent Jobs */}
                 <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 lg:p-7 mt-6 sm:mt-8">
 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

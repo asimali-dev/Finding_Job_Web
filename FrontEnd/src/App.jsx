@@ -30,6 +30,7 @@ import UpdateCompany from "./components/admin/UpdateCompany.jsx";
 import { toast } from "sonner";
 import AdminJobDes from "./components/admin/AdminJobDes.jsx";
 import UpdateJob from "./components/admin/UpdateJob.jsx";
+import Applicants from "./components/admin/Applicants.jsx";
 
 function App() {
   const location = useLocation();
@@ -95,7 +96,7 @@ function App() {
         <Route path="/companies" element={<Companies />} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/jobs/description/:id" element={<JobDescription />} />
+        <Route path="/job/description/:id" element={<JobDescription />} />
         <Route path="/company/description/:id" element={<CompanyDescription/>}/>
 
 
@@ -110,6 +111,7 @@ function App() {
         <Route path="/admin/company/edit/:id" element={<UpdateCompany/>}/>
         <Route path="/admin/job/detail/:id" element={<AdminJobDes/>}/>
         <Route path="/admin/job/edit/:id" element={<UpdateJob/>}/>
+        <Route path="/admin/job/applicants/:id" element={<Applicants/>}/>
 
 
 

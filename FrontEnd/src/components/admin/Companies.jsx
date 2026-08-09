@@ -3,11 +3,13 @@ import { setcompanies } from "@/redux/CompanySlice";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+
 
 function Companies() {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetch_companies = async () => {
@@ -49,7 +51,7 @@ function Companies() {
                         </p>
                     </div>
 
-                    <button className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition cursor-pointer whitespace-nowrap">
+                    <button onClick={()=> navigate("/admin/company/create")} className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition cursor-pointer whitespace-nowrap">
                         + Create Company
                     </button>
                 </div>

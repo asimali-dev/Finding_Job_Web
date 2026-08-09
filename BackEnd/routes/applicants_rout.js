@@ -11,7 +11,7 @@ const {
 
 router.post("/apply/:id", isAuthenticated, apply_job);
 router.get("/get/apply/:jobId", isAuthenticated, getAppliedJobs);
-router.get("/get/applicants", isAuthenticated, getApplicants);
+router.get("/get/applicants/:id", isAuthenticated, getApplicants);
 router.put("/update/:id",isAuthenticated,updateApplicant );
 
 module.exports = router;

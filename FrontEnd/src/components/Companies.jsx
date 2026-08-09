@@ -73,18 +73,15 @@ function Companies() {
                   <span>{company.location}</span>
                 </div>
 
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex items-center gap-2 text-gray-600 truncate">
                   <Globe size={18} />
                   <span>{company.website}</span>
                 </div>
 
               </div>
-              <div className="flex justify-between items-center mt-8">
-                <button onClick={()=> navigate(`/company/description/${company._id}`)} className="bg-blue-100 text-blue-700 px-5 py-2 text-[17px] rounded-lg text-sm font-medium hover:bg-blue-700 hover:text-white transition-all">
+              <div className="flex justify-between items-center mt-8 w-full">
+                <button onClick={()=> navigate(`/company/description/${company._id}`)} className="w-full bg-blue-100 text-blue-700 cursor-pointer py-2 text-[17px] rounded-lg text-sm font-medium hover:bg-blue-700 hover:text-white transition-all">
                   Detail
-                </button>
-                <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all">
-                  View Jobs
                 </button>
               </div>
             </div>
