@@ -11,6 +11,7 @@ import {
 import { Badge } from "./ui/badge";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import API from "../API/axios"
 
 
 
@@ -21,8 +22,8 @@ function AppliedJobs() {
     const FetchAppliedJobs = async () => {
       try {
         console.log("chala ha")
-        const res = await axios.get(
-          `http://localhost:3000/api/v1/applicants/get/apply/${id}`,
+        const res = await API.get(
+          `/api/v1/applicants/get/apply/${id}`,
           {
             withCredentials: true
           }

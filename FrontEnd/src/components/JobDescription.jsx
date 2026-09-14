@@ -18,6 +18,7 @@ import { setSingleJob } from "@/redux/JobSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import useApplyJob from "../hooks/useApplyJob";
+import API from "../API/axios"
 
 function JobDescription() {
   const { user } = useSelector((store) => store.auth)
@@ -27,8 +28,8 @@ function JobDescription() {
   useEffect(() => {
     const singleJob = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/v1/job/get/${id}`,
+        const res = await API.get(
+          `/api/v1/job/get/${id}`,
           {
             withCredentials: true,
           },

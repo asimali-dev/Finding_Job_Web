@@ -12,14 +12,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAdminJobs } from "@/redux/JobSlice";
 import axios from "axios";
 import { setcompanies } from "@/redux/CompanySlice";
+import API from "../../API/axios"
 
 function Dashboard() {
     const dispatch = useDispatch();
 
     const fetchAdminJobs = async () => {
         try {
-            const res = await axios.get(
-                "http://localhost:3000/api/v1/job/get/admin",
+            const res = await API.get(
+                "/api/v1/job/get/admin",
                 {
                     withCredentials: true,
                 }
@@ -35,8 +36,8 @@ function Dashboard() {
 
     const fetchCompanies = async () => {
         try {
-            const res = await axios.get(
-                "http://localhost:3000/api/v1/company/get",
+            const res = await API.get(
+                "/api/v1/company/get",
                 {
                     withCredentials: true,
                 }

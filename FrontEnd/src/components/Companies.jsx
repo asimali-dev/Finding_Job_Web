@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Building2, MapPin, Globe } from "lucide-react";
+import { Building2, MapPin, Globe, AlarmPlusIcon } from "lucide-react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import API from "../API/axios"
 
 function Companies() {
   const [company , setcompany] = useState([]);
@@ -11,7 +12,7 @@ function Companies() {
   useEffect(()=>{
     const fetchCompanies = async ()=>{
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/company/all',
+        const res = await AlarmPlusIcon.get('/api/v1/company/all',
         {},
         {
           withCredentials: true,
