@@ -13,7 +13,7 @@ const create_job = async (req, res) => {
             company
         } = req.body;
         const userid = req.id;
-        console.log(req.body);
+         console.log(req.body);
 
         if (!title || !description || !requirements || !salary || !location || !jobtype || !position || !company) {
             return res.status(400).json({
@@ -42,10 +42,9 @@ const getAllJobs = async (req, res) => {
     try {
         const jobs = await job_model.find().populate("company").sort({ createdAt: -1 });
         if (!jobs.length) {
-            return res.status(200).json({
-                message: "No jobs found",
-                success: true,
-                jobs: []
+            return res.status(404).json({
+                message: "not jobs find",
+                success: false
             });
         };
         return res.status(200).json({
@@ -121,7 +120,7 @@ const update_job = async (req, res) => {
             position,
             company
         } = req.body;
-
+       
         if (title) { update.title = title };
         if (description) { update.description = description };
         if (requirements) {

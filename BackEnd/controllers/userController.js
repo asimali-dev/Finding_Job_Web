@@ -56,8 +56,7 @@ const register = async (req, res) => {
             .cookie("token", token, {
                 maxAge: 1 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                sameSite: "none",
-                secure: true
+                sameSite: "strict"
             })
             .json({
                 message: "User registered successfully",
@@ -111,7 +110,7 @@ const login = async (req, res) => {
             profile: user.profile
         }
         const token = await jwt.sign({ userid: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
-        return res.status(200).cookie('token', token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'none', secure: true }).json({
+        return res.status(200).cookie('token', token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
             message: `wellcome back ${user.fullname}`,
             success: true,
             user
@@ -137,9 +136,9 @@ const updateProfile = async (req, res) => {
 
         const { fullname, email, phonenumber, bio, skills } = req.body;
         console.log("===== UPDATE PROFILE =====");
-        console.log("BODY:", req.body);
-        console.log("FILES:", req.files);
-
+console.log("BODY:", req.body);
+console.log("FILES:", req.files);
+    
         const profilephoto = req.files?.profilephoto?.[0];
         const resume = req.files?.resume?.[0];
 
@@ -193,12 +192,12 @@ const updateProfile = async (req, res) => {
             user,
         });
     } catch (error) {
-        console.log(error);
+       console.log(error);
 
-        return res.status(500).json({
-            success: false,
-            message: error.message,
-        });
+    return res.status(500).json({
+        success: false,
+        message: error.message,
+    });
     }
 };
 const getProfile = async (req, res) => {

@@ -7,7 +7,6 @@ import axios from "axios";
 import { toast } from "sonner";
 import { setUser } from "../../redux/authSlice"
 import { useDispatch } from "react-redux";
-import API from "../../API/axios"
 
 function Signup() {
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ function Signup() {
 
 
     try {
-      const res = await API.post("/api/v1/user/register",
+      const res = await axios.post("http://localhost:3000/api/v1/user/register",
         formdata,
         {
           headers: {

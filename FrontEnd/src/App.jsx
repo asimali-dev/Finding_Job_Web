@@ -31,7 +31,6 @@ import { toast } from "sonner";
 import AdminJobDes from "./components/admin/AdminJobDes.jsx";
 import UpdateJob from "./components/admin/UpdateJob.jsx";
 import Applicants from "./components/admin/Applicants.jsx";
-import API from "./API/axios.js"
 
 function App() {
   const location = useLocation();
@@ -44,8 +43,8 @@ function App() {
   }, []);
   const getProfile = async () => {
     try {
-      const res = await API.get(
-        "/api/v1/user/profile",
+      const res = await axios.get(
+        "http://localhost:3000/api/v1/user/profile",
         {
           withCredentials: true,
         }
@@ -65,8 +64,8 @@ function App() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await API.get(
-          "/api/v1/job/get",
+        const res = await axios.get(
+          "http://localhost:3000/api/v1/job/get",
           {
             withCredentials: true,
           },

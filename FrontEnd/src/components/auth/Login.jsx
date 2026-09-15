@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/authSlice"
-import API from "../../API/axios"
 
 function Login() {
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ function Login() {
     console.log(input)
 
     try {
-      const res = await API.post("/api/v1/user/login",
+      const res = await axios.post("http://localhost:3000/api/v1/user/login",
         input,
         {
           headers: {
