@@ -56,7 +56,7 @@ const register = async (req, res) => {
             .cookie("token", token, {
                 maxAge: 1 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                sameSite: "strict"
+                sameSite: "none"
             })
             .json({
                 message: "User registered successfully",
@@ -110,7 +110,7 @@ const login = async (req, res) => {
             profile: user.profile
         }
         const token = await jwt.sign({ userid: user._id }, process.env.SECRET_KEY, { expiresIn: '1d' });
-        return res.status(200).cookie('token', token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'strict' }).json({
+        return res.status(200).cookie('token', token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: 'none' }).json({
             message: `wellcome back ${user.fullname}`,
             success: true,
             user
