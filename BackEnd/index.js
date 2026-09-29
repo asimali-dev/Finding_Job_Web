@@ -13,7 +13,7 @@ require("dotenv").config();
 app.use(cookieparser())
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://finding-job-web-a33o.vercel.app",
     credentials: true,
   })
 );
