@@ -38,9 +38,6 @@ app.use('/api/v1/applicants', ApplicantsRout);
 
 connectdb();
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(process.env.PORT || 3000, () => {
-    console.log("Server running");
-  });
-}
-module.exports = app;
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server running");
+});
