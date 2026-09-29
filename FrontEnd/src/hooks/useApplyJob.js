@@ -4,7 +4,7 @@ const useApplyJob = ()=>{
 
     const applyJob = async (jobId)=>{
         try {
-            const res = await axios.post(`http://localhost:3000/api/v1/applicants/apply/${jobId}`,
+            const res = await axios.post(`https://finding-job-web.vercel.app/api/v1/applicants/apply/${jobId}`,
             {},   
             {
                 withCredentials: true,

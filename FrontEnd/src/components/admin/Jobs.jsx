@@ -14,7 +14,7 @@ function Jobs() {
     const fetchAdminJobs = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/v1/job/get/admin",
+          "https://finding-job-web.vercel.app/api/v1/job/get/admin",
           {
             withCredentials: true,
           }

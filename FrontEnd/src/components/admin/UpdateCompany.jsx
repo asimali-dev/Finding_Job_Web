@@ -62,7 +62,7 @@ function UpdateCompany() {
 
         try {
             const res = await axios.put(
-                `http://localhost:3000/api/v1/company/update/${id}`,
+                `https://finding-job-web.vercel.app/api/v1/company/update/${id}`,
                 formData,
                 {
                     headers: {

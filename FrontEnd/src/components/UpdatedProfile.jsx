@@ -50,7 +50,7 @@ function UpdatedProfile({ open, setopen }) {
         try {
             console.log("Before axios");
             const res = await axios.post(
-                "http://localhost:3000/api/v1/user/Profile/Update",
+                "https://finding-job-web.vercel.app/api/v1/user/Profile/Update",
                 formData,
                 {
                     withCredentials: true,

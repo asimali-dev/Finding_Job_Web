@@ -22,7 +22,7 @@ function AppliedJobs() {
       try {
         console.log("chala ha")
         const res = await axios.get(
-          `http://localhost:3000/api/v1/applicants/get/apply/${id}`,
+          `https://finding-job-web.vercel.app/api/v1/applicants/get/apply/${id}`,
           {
             withCredentials: true
           }

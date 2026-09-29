@@ -30,7 +30,7 @@ function Navbar() {
     const logoutHandler = async () => {
         try {
             const res = await axios.post(
-                "http://localhost:3000/api/v1/user/logout",
+                "https://finding-job-web.vercel.app/api/v1/user/logout",
                 {},
                 {
                     withCredentials: true,

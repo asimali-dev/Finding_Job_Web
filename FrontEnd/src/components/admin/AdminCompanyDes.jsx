@@ -26,7 +26,7 @@ function AdminCompanyDes() {
         const fetchCompany = async () => {
             try {
                 const res = await axios.get(
-                    `http://localhost:3000/api/v1/company/get/${id}`,
+                    `https://finding-job-web.vercel.app/api/v1/company/get/${id}`,
                     {
                         withCredentials: true,
                     }

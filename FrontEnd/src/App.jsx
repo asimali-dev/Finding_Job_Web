@@ -44,7 +44,7 @@ function App() {
   const getProfile = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/user/profile",
+        "https://finding-job-web.vercel.app/api/v1/user/profile",
         {
           withCredentials: true,
         }
@@ -65,7 +65,7 @@ function App() {
     const fetchJobs = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/v1/job/get",
+          "https://finding-job-web.vercel.app/api/v1/job/get",
           {
             withCredentials: true,
           },

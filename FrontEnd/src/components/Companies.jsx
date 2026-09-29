@@ -11,7 +11,7 @@ function Companies() {
   useEffect(()=>{
     const fetchCompanies = async ()=>{
       try {
-        const res = await axios.get('http://localhost:3000/api/v1/company/all',
+        const res = await axios.get('https://finding-job-web.vercel.app/api/v1/company/all',
         {},
         {
           withCredentials: true,

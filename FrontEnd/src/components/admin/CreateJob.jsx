@@ -17,7 +17,7 @@ function CreateJob() {
 
       try {
         const res = await axios.get(
-          "http://localhost:3000/api/v1/company/get",
+          "https://finding-job-web.vercel.app/api/v1/company/get",
           {
             withCredentials: true,
           }
@@ -66,7 +66,7 @@ function CreateJob() {
     }
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/v1/job/create",
+        "https://finding-job-web.vercel.app/api/v1/job/create",
         data,
         {
           withCredentials: true,

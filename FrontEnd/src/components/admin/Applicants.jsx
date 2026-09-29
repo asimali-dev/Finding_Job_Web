@@ -14,7 +14,7 @@ function Applicants() {
     const fetchApplicants = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/v1/applicants/get/applicants/${id}`,
+          `https://finding-job-web.vercel.app/api/v1/applicants/get/applicants/${id}`,
           {
             withCredentials: true,
           }
@@ -38,7 +38,7 @@ function Applicants() {
   const updateStatus = async (applicationId , status)=>{
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/v1/applicants/update/${applicationId}`,
+        `https://finding-job-web.vercel.app/api/v1/applicants/update/${applicationId}`,
         {
           status : status
         },
